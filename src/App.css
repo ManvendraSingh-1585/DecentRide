@@ -1,0 +1,543 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --dark: #34495e;
+  --darker: #2c3e50;
+  --light: #7f8c8d;
+  --lighter: #ecf0f1;
+  --bright: #ffffff;
+  --font: 'Capriola', sans-serif;
+  --box-shadow: 0 0 5px var(--light);
+  --top: 82px;
+}
+
+body {
+  min-width: 300px;
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--darker);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--bright);
+  box-shadow: var(--box-shadow);
+}
+
+nav img {
+  height: 66px;
+  display: flex;
+}
+
+#burger-toggle {
+  display: none;
+}
+
+#cent {
+  text-align: center;
+}
+
+#burger-toggle:checked ~ ul {
+  box-shadow: var(--box-shadow);
+  left: calc(100% - 200px);
+}
+
+#burger {
+  width: 35px;
+  height: 25px;
+  display: none;
+  margin: auto 0;
+  cursor: pointer;
+}
+
+#burger:before, #burger:after, #burger div {
+  content: "";
+  width: 35px;
+  height: 3px;
+  background-color: var(--darker);
+  border-radius: 2px;
+  transition: .3s;
+}
+
+nav ul {
+  background-color: var(--bright);
+  display: flex;
+  width: 400px;
+  justify-content: space-between;
+  transition: .3s;
+}
+
+nav li {
+  display: flex;
+}
+
+nav li a {
+  margin: auto;
+  padding: 5px;
+  font-weight: normal !important;
+}
+
+.shortcut {
+  color: var(--darker);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.shortcut:hover, .shortcut:focus, .shortcut:active {
+  color: var(--light);
+  outline: none;
+}
+
+#wrap {
+  width: 100%;
+  height: auto;
+  min-height: 75vh;
+  background-color: var(--light);
+  background-repeat: no-repeat;
+  background: url('./images/bg.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  margin-top: var(--top);
+  display: flex;
+}
+
+main {
+  color: var(--bright);
+  margin: auto;
+  padding: 100px 15px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+main p {
+  font-size: 2rem;
+  text-shadow: 0px 0px 2px #000000;
+}
+
+main form {
+  margin: 5% auto 0;
+}
+
+input, select, button {
+  width: 24%;
+  min-width: 160px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--bright);
+  border: transparent;
+  margin: 10px auto;
+  font-family: var(--font);
+  font-size: 16px;
+}
+
+input:not([type="submit"]) {
+  box-shadow: var(--box-shadow);
+}
+
+.pill {
+  background-color: var(--darker);
+  border-radius: 20px;
+  color: var(--bright);
+  padding: 10px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.pill:hover {
+  background-color: var(--dark);
+  cursor: pointer;
+}
+
+.more {
+  padding: 40px 0;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.description {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.image-box {
+  width: 50%;
+  background-image: url('./images/steer.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: .5s;
+}
+
+#description-one .image-box {
+  background-image: url('./images/steer.jpg');
+  animation: steer 10s infinite;
+  z-index: -1;
+}
+
+@keyframes steer {
+  0% {transform: rotate(0deg)}
+  10% {transform: rotate(-200deg)}
+  35% {transform: rotate(170deg)}
+  50% {transform: rotate(140deg)}
+  65% {transform: rotate(190deg)}
+  80% {transform: rotate(110deg)}
+  100% {transform: rotate(0deg)}
+}
+
+.word-box {
+  width: 50%;
+}
+
+.word-box p {
+  margin: 25px 5%;
+}
+
+.more:last-of-type {
+  background-color: var(--lighter);
+}
+
+#description-two {
+  flex-direction: row-reverse;
+}
+
+#description-two .word-box {
+  text-align: right;
+}
+
+#btn-wrap {
+  text-align: center;
+}
+
+#btn-wrap a {
+  display: inline-block;
+  margin: 0 20px;
+  width: 100px;
+}
+
+footer {
+  height: var(--top);
+  line-height: var(--top);
+  background-color: var(--darker);
+  color: var(--bright);
+  display: flex;
+  justify-content: space-around;
+}
+
+footer a {
+  color: var(--bright);
+}
+
+footer a:hover {
+  color: var(--light);
+}
+
+/* Sign up  and log in*/
+.spread {
+  width: 100%;
+  min-height: calc(100vh - var(--top));
+  margin-top: var(--top);
+  padding: 10vh 0;
+  text-align: center;
+  background-color: var(--lighter);
+}
+
+.spread form {
+  display: flex;
+  flex-direction: column;
+}
+
+.spread input {
+  max-width: 95%;
+  width: 450px;
+}
+
+.spread form + p {
+  margin-top: 20px;
+}
+
+/* Available rides */
+#rides {
+  max-width: 1300px;
+  margin: auto;
+}
+
+.ride {
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+  background-color: var(--bright);
+  display: inline-block;
+  border-radius: 5px;
+  word-wrap: break-word;
+  transition: .3s;
+  box-shadow: var(--box-shadow);
+}
+
+.ride:hover {
+  box-shadow: 5px 5px 10px var(--light);
+}
+
+.ride ul {
+  height: 240px;
+  overflow: auto;
+  text-align: left;
+}
+
+.ride ul ~ a {
+  margin: 0 10px;
+}
+
+.ride li {
+  margin: 0 10px;
+  padding: 12px 0;
+  border-top: 1px solid var(--light);
+}
+
+.ride li:first-child {
+  border-top: none;
+}
+
+ul ~ a, ul ~ button {
+  display: block;
+}
+
+/* Ride details */
+#details-wrap {
+  max-width: 400px;
+  width: 95%;
+  background-color: var(--bright);
+  padding: 15px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  word-wrap: break-word;
+  text-align: left;
+}
+
+#details-wrap li, #details-wrap > button {
+  margin: 15px 0;
+  width: 100%;
+}
+
+#details-wrap li:not(:first-child) {
+  border-top: 1px solid var(--light);
+  margin: 0;
+  padding: 15px 0px;
+}
+
+button {
+  border: none;
+  font-family: var(--font);
+  font-size: 16px;
+  outline: none;
+}
+
+#cancel {
+  background-color: #c0392b;
+}
+
+#cancel:hover {
+  background-color: #e74c3c;
+}
+
+/* Rider Profile */
+#profile-pics {
+  background-color: var(--lighter);
+  background-image: url('./images/bg.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+  height: 250px;
+  transition: .5s;
+}
+
+/* Ride Request(s) */
+.requests {
+  display: flex;
+  justify-content: space-between;
+}
+
+.requests button {
+  margin: 3px auto;
+}
+
+.requests a {
+  margin: auto 0;
+}
+
+/************
+Media queries
+************/
+
+@media (max-width: 768px) {
+
+  nav {
+    justify-content: space-between;
+    padding: 8px 20px;
+  }
+
+  nav ul {
+    display: block;
+    position: fixed;
+    top: var(--top);
+    left: 100%;
+    width: 200px;
+    min-height: calc(100vh - var(--top));
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  nav li a {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    transition: .3s;
+    border-bottom: 1px solid var(--light);
+  }
+
+  nav li a:hover {
+    padding-left: 30px;
+  }
+
+  #burger-toggle:checked + #burger:before {
+    transform: rotate(45deg);
+    margin-top: 11px;
+  }
+
+  #burger-toggle:checked + #burger div {
+    transform: rotate(-45deg);
+    margin-top: -11px;
+  }
+
+  #burger-toggle:checked + #burger:after {
+    opacity: 0;
+    transform: translateY(-11px);
+  }
+
+  #burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  :root {
+    --top: 66px;
+  }
+
+  nav img {
+    height: 50px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  #wrap {
+    min-height: calc(100vh - var(--top));
+  }
+
+  main {
+    padding: 60px 5px;
+  }
+
+  main p {
+    font-size: 1rem;
+  }
+
+  input {
+    margin: 5px auto;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    flex-direction: column !important;
+  }
+
+  .image-box {
+    width: 100%;
+    height: 200px;
+  }
+
+  .word-box {
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .word-box p {
+    margin: 25px 0;
+  }
+
+  footer {
+    flex-direction: column;
+    line-height: 0;
+    padding: 10px 0;
+  }
+
+  footer span {
+    margin: auto;
+  }
+
+}
