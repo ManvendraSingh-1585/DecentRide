@@ -1,10 +1,5 @@
 
 
-#Preview video link: https://drive.google.com/file/d/1YKS5APXGpaRF90AxtOo5rMMd7bKVmbes/view?usp=sharing
-
-
-
-
 
 
 
