@@ -40,10 +40,11 @@ app.post("/signup", (req, res) => {
   const query = `INSERT INTO user (user_name, user_email, user_number, user_password) VALUES (?, ?, ?, ?)`;
   
   db.query(query, [username, email, Phone_number, password], (err, result) => {
-    if (result) {
-      res.send({ status: true, ...result });
-    } else {
+    if(err){
       res.send({ status: false, message: "Enter Correct details!!" });
+    }
+    else {
+      res.send({ status: true, ...result });
     }
   });
 });
@@ -118,6 +119,39 @@ app.post('/login/Main_Dashboard/drivers',(req,res)=>{
   });
 });
 
+app.post("/login/Main_Dashboard/Avail_Rides", (req, res) => {
+  // First search query to get tournament_id
+  const sql = `SELECT ride.ride_id, ride.source_address, ride.destination_address, user.user_name AS driver_name FROM ride INNER JOIN user ON ride.driver_id = user.user_id;`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error accessing rides: ' + err);
+      res.status(500).json({ status: false, error: 'Error accessing rides' });
+    } else {
+      // Extract the ride details from the result
+      const rides = result.map((ride) => ({
+        ride_id: ride.ride_id,
+        source_address: ride.source_address,
+        destination_address: ride.destination_address,
+        driver_name: ride.driver_name,
+      }));
+      res.status(200).json({ status: true, rides });
+    }
+  });
+});
+
+app.post("/login/Main_Dashboard/Avail_Rides/request",(req,res)=>{
+  const rider_id = req.body.rider_id;
+  const ride_id = req.body.ride_id;
+  const status = "Pending";
+  const sql = 'insert into ride_request (ride_id,rider_id,status) values (?,?,?)';
+  db.query(sql,[ride_id,rider_id,status],(err,result)=>{
+    if(err){
+      res.status(500).json({ status: false, error: 'Error requesting for ride' });
+    }else{
+      res.send({status:true,...result});
+    }
+  })
+})
 app.listen(8000, () => {
     console.log("running server");
 });
