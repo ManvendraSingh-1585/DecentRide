@@ -120,14 +120,12 @@ app.post('/login/Main_Dashboard/drivers',(req,res)=>{
 });
 
 app.post("/login/Main_Dashboard/Avail_Rides", (req, res) => {
-  // First search query to get tournament_id
   const sql = `SELECT ride.ride_id, ride.source_address, ride.destination_address, user.user_name AS driver_name FROM ride INNER JOIN user ON ride.driver_id = user.user_id;`;
   db.query(sql, (err, result) => {
     if (err) {
       console.error('Error accessing rides: ' + err);
       res.status(500).json({ status: false, error: 'Error accessing rides' });
     } else {
-      // Extract the ride details from the result
       const rides = result.map((ride) => ({
         ride_id: ride.ride_id,
         source_address: ride.source_address,
@@ -152,6 +150,99 @@ app.post("/login/Main_Dashboard/Avail_Rides/request",(req,res)=>{
     }
   })
 })
+app.post("/login/Main_Dashboard/Request", (req, res) => {
+  const rider_id = req.body.rider_id;
+
+  const selectQuery = `
+    SELECT 
+    ride_request.request_id, 
+    ride_request.ride_id, 
+    ride_request.rider_id, 
+    ride_request.status,
+    ride.source_address,
+    ride.destination_address,
+    user.user_name AS driver_name,
+    user.user_email,
+    user.user_number
+  FROM 
+    ride_request
+  JOIN 
+    ride ON ride_request.ride_id = ride.ride_id
+  JOIN 
+    user ON ride.driver_id = user.user_id
+  WHERE 
+    ride_request.rider_id = ?;
+  `
+
+  db.query(selectQuery, [ rider_id], function (err, result) {
+    if (err) {
+      res.status(500).json({ status: false, error: 'Error retrieving pending ride requests' });
+      return;
+    }
+    const info = result.map((rinfo) => ({
+      request_id:rinfo.request_id,
+      ride_id: rinfo.ride_id,
+      rider_id: rinfo.rider_id,
+      source_address: rinfo.source_address,
+      destination_address: rinfo.destination_address,
+      driver_name: rinfo.driver_name,
+      status: rinfo.status,
+      user_email:rinfo.user_email,
+      user_phone:rinfo.user_number,
+    }));
+    res.status(200).json({ status: true,  info });
+  });
+});
+
+app.post("/login/Main_Dashboard/requests", (req, res) => {
+  const driver_id = req.body.driver_id; 
+
+  const sql = `
+    SELECT 
+      rr.rider_id,
+      rr.status,
+      u.user_name AS rider_name,
+      u.user_email AS rider_email,
+      u.user_number AS rider_phone
+    FROM 
+      ride_request rr
+    JOIN 
+      user u ON rr.rider_id = u.user_id
+    WHERE 
+      rr.ride_id IN (SELECT ride_id FROM ride WHERE driver_id = ?);
+  `;
+
+  db.query(sql, [driver_id], (err, result) => {
+    if (err) {
+      res.status(500).json({ status: false, error: 'Error fetching ride requests' });
+    } else {
+      const info = result.map((rinfo) => ({
+        rider_id: rinfo.rider_id,
+        rider_name: rinfo.rider_name,
+        rider_email: rinfo.rider_email,
+        rider_phone: rinfo.rider_phone,
+      }));
+      res.send({ status: true, info });
+    }
+  });
+});
+
+app.post("/login/Main_Dashboard/requests1", (req, res) => {
+  const rider_id = req.body.rider_id;
+  const status = req.body.status;
+  console.log(rider_id)
+  const sql = 'UPDATE ride_request SET status = ? WHERE rider_id = ?';
+
+  db.query(sql, [status, rider_id], (err, result) => {
+    if (err) {
+      res.status(500).json({ status: false, error: 'Error updating ride request status' });
+    } else {
+      res.send({ status: true, ...result });
+    }
+  });
+});
+
+
 app.listen(8000, () => {
     console.log("running server");
 });
