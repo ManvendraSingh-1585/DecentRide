@@ -18,6 +18,7 @@ const MAP = () => {
   const end = params.get('end');
 
   useEffect(() => {
+    // Initialize map only when the component is mounted
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -41,17 +42,21 @@ const MAP = () => {
     // Update the directions with new origin and destination
     directions.current.setOrigin(start);
     directions.current.setDestination(end);
+
+    // Ensure that the map is fully loaded before displaying the directions
+    map.current.on('load', () => {
+      directions.current.setOrigin(start);
+      directions.current.setDestination(end);
+    });
   }, [start, end]);
 
-  // Clean up map instance when component unmounts
-  useEffect(() => {
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
-  }, []);
+  const handleBackButtonClick = () => {
+    // Clean up map instance when back button is clicked
+    if (map.current) {
+      map.current.remove();
+      map.current = null;
+    }
+  };
 
   return (
     <div>
@@ -60,7 +65,11 @@ const MAP = () => {
       </div>
       <div ref={mapContainer} style={{ height: '500px' }} />
       <h3 style={{ textAlign: 'center', marginTop: '40px' }}>
-        <Link to="/login/Main_Dashboard/Avail_Rides" className="shortcut">
+        <Link
+          to="/login/Main_Dashboard/Avail_Rides"
+          className="shortcut"
+          onClick={handleBackButtonClick}
+        >
           Back
         </Link>
       </h3>
