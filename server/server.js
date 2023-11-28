@@ -199,7 +199,7 @@ app.post("/login/Main_Dashboard/requests", (req, res) => {
 
   const sql = `
     SELECT 
-      rr.rider_id,
+      rr.request_id,
       rr.status,
       u.user_name AS rider_name,
       u.user_email AS rider_email,
@@ -217,7 +217,7 @@ app.post("/login/Main_Dashboard/requests", (req, res) => {
       res.status(500).json({ status: false, error: 'Error fetching ride requests' });
     } else {
       const info = result.map((rinfo) => ({
-        rider_id: rinfo.rider_id,
+        request_id: rinfo.request_id,
         rider_name: rinfo.rider_name,
         rider_email: rinfo.rider_email,
         rider_phone: rinfo.rider_phone,
@@ -228,12 +228,12 @@ app.post("/login/Main_Dashboard/requests", (req, res) => {
 });
 
 app.post("/login/Main_Dashboard/requests1", (req, res) => {
-  const rider_id = req.body.rider_id;
+  const request_id = req.body.request_id;
   const status = req.body.status;
-  console.log(rider_id)
-  const sql = 'UPDATE ride_request SET status = ? WHERE rider_id = ?';
+  console.log(request_id)
+  const sql = 'UPDATE ride_request SET status = ? WHERE request_id = ?';
 
-  db.query(sql, [status, rider_id], (err, result) => {
+  db.query(sql, [status, request_id], (err, result) => {
     if (err) {
       res.status(500).json({ status: false, error: 'Error updating ride request status' });
     } else {
